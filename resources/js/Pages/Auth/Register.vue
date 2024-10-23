@@ -1,77 +1,113 @@
-<script setup lang="ts">
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
-import { Label } from "@/Components/ui/label";
+<script setup>
+import GuestLayout from '@/Layouts/GuestLayout.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 
-import { Link } from "@inertiajs/vue3";
+const form = useForm({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+});
+
+const submit = () => {
+    form.post(route('register'), {
+        onFinish: () => form.reset('password', 'password_confirmation'),
+    });
+};
 </script>
 
 <template>
-    <div
-        class="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]"
-    >
-        <div class="hidden bg-muted lg:block">
-            <img
-                src="https://images.unsplash.com/photo-1616763355603-9755a640a287?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
-                alt="Image"
-                width="1920"
-                height="1080"
-                class="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
-        </div>
-        <div class="flex items-center justify-center py-12">
-            <div class="mx-auto grid w-[350px] gap-6">
-                <div class="grid gap-2 text-center">
-                    <h1 class="text-3xl font-bold">Register</h1>
-                    <p class="text-balance text-muted-foreground">
-                        Enter your email and password to register
-                    </p>
-                </div>
-                <div class="grid gap-4">
-                    <div class="grid gap-2">
-                        <Label for="email">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="m@example.com"
-                            required
-                        />
-                    </div>
-                    <div class="grid gap-2">
-                        <div class="flex items-center">
-                            <Label for="password">Password</Label>
-                        </div>
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            placeholder="********"
-                        />
-                    </div>
+    <GuestLayout>
+        <Head title="Register" />
 
-                    <div class="grid gap-2">
-                        <div class="flex items-center">
-                            <Label for="password">Re-Password</Label>
-                        </div>
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            placeholder="********"
-                        />
-                    </div>
-                    <Button type="submit" class="w-full"> Login </Button>
-                    <Button variant="outline" class="w-full">
-                        Register with Google
-                    </Button>
-                </div>
-                <div class="mt-4 text-center text-sm">
-                    Already registered?
-                    <Link :href="route('login')" class="underline">
-                        Sign in
-                    </Link>
-                </div>
+        <form @submit.prevent="submit">
+            <div>
+                <InputLabel for="name" value="Name" />
+
+                <TextInput
+                    id="name"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.name"
+                    required
+                    autofocus
+                    autocomplete="name"
+                />
+
+                <InputError class="mt-2" :message="form.errors.name" />
             </div>
-        </div>
-    </div>
+
+            <div class="mt-4">
+                <InputLabel for="email" value="Email" />
+
+                <TextInput
+                    id="email"
+                    type="email"
+                    class="mt-1 block w-full"
+                    v-model="form.email"
+                    required
+                    autocomplete="username"
+                />
+
+                <InputError class="mt-2" :message="form.errors.email" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="password" value="Password" />
+
+                <TextInput
+                    id="password"
+                    type="password"
+                    class="mt-1 block w-full"
+                    v-model="form.password"
+                    required
+                    autocomplete="new-password"
+                />
+
+                <InputError class="mt-2" :message="form.errors.password" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel
+                    for="password_confirmation"
+                    value="Confirm Password"
+                />
+
+                <TextInput
+                    id="password_confirmation"
+                    type="password"
+                    class="mt-1 block w-full"
+                    v-model="form.password_confirmation"
+                    required
+                    autocomplete="new-password"
+                />
+
+                <InputError
+                    class="mt-2"
+                    :message="form.errors.password_confirmation"
+                />
+            </div>
+
+            <div class="mt-4 flex items-center justify-end">
+                <Link
+                    :href="route('login')"
+                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                    Already registered?
+                </Link>
+
+                <PrimaryButton
+                    class="ms-4"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
+                    Register
+                </PrimaryButton>
+            </div>
+        </form>
+    </GuestLayout>
 </template>
