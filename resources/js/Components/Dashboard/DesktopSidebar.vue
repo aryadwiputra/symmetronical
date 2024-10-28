@@ -1,14 +1,14 @@
 <script setup>
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/Components/ui/badge";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card";
+} from "@/Components/ui/card";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -16,9 +16,10 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+} from "@/Components/ui/dropdown-menu";
+import { Input } from "@/Components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
+import { Link } from "@inertiajs/vue3";
 import {
     Bell,
     CircleUser,
@@ -38,10 +39,10 @@ import {
             <div
                 class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6"
             >
-                <a href="/" class="flex items-center gap-2 font-semibold">
+                <Link :href="route('dashboard')" class="flex items-center gap-2 font-semibold">
                     <Package2 class="h-6 w-6" />
                     <span class="">Acme Inc</span>
-                </a>
+                </Link>
                 <Button variant="outline" size="icon" class="ml-auto h-8 w-8">
                     <Bell class="h-4 w-4" />
                     <span class="sr-only">Toggle notifications</span>
@@ -51,12 +52,19 @@ import {
                 <nav class="grid items-start px-2 text-sm font-medium lg:px-4">
                     <a
                         href="/"
-                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                        class="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
                     >
                         <Home class="h-4 w-4" />
                         Dashboard
                     </a>
                     <a
+                        href="#"
+                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                    >
+                        <Package class="h-4 w-4" />
+                        Products
+                    </a>
+                    <!-- <a
                         href="#"
                         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                     >
@@ -67,15 +75,8 @@ import {
                         >
                             6
                         </Badge>
-                    </a>
-                    <a
-                        href="#"
-                        class="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-                    >
-                        <Package class="h-4 w-4" />
-                        Products
-                    </a>
-                    <a
+                    </a> -->
+                    <!-- <a
                         href="#"
                         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                     >
@@ -88,7 +89,7 @@ import {
                     >
                         <LineChart class="h-4 w-4" />
                         Analytics
-                    </a>
+                    </a> -->
                 </nav>
             </div>
             <div class="mt-auto p-4">

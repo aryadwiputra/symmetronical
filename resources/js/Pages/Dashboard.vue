@@ -1,69 +1,96 @@
-<script setup lang="ts">
-import { Badge } from "@/components/ui/badge";
-
-import { Button } from "@/components/ui/button";
+<script setup>
+import AppHeader from "@/Components/Dashboard/AppHeader.vue";
+import Button from "@/Components/ui/button/Button.vue";
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card";
+} from "@/Components/ui/card";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-    Bell,
+    Activity,
+    ArrowUpRight,
     CircleUser,
-    Home,
-    LineChart,
+    CreditCard,
+    DollarSign,
     Menu,
-    Package,
     Package2,
     Search,
-    ShoppingCart,
     Users,
 } from "lucide-vue-next";
 
-import { Link } from "@inertiajs/vue3";
-import DesktopSidebar from "@/Components/Dashboard/DesktopSidebar.vue";
-import MobileSidebar from "@/Components/Dashboard/MobileSidebar.vue";
+import DashboardLayout from "@/Layouts/DashboardLayout.vue";
+</script>
+
+<script>
+export default {
+    layout: DashboardLayout,
+};
 </script>
 
 <template>
-    <div
-        class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]"
-    >
-        <!-- Desktop Sidebar -->
-        <DesktopSidebar />
-        <div class="flex flex-col">
-            <!-- Mobile Sidebar -->
-            <MobileSidebar />
-            <main class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-                <div class="flex items-center">
-                    <h1 class="text-lg font-semibold md:text-2xl">Inventory</h1>
-                </div>
-                <div
-                    class="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-                >
-                    <div class="flex flex-col items-center gap-1 text-center">
-                        <h3 class="text-2xl font-bold tracking-tight">
-                            You have no products
-                        </h3>
-                        <p class="text-sm text-muted-foreground">
-                            You can start selling as soon as you add a product.
-                        </p>
-                        <Button class="mt-4"> Add Product </Button>
-                    </div>
-                </div>
-            </main>
-        </div>
+    <AppHeader title="Dashboard" />
+    <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+        <Card>
+            <CardHeader
+                class="flex flex-row items-center justify-between space-y-0 pb-2"
+            >
+                <CardTitle class="text-sm font-medium">
+                    Total Revenue
+                </CardTitle>
+                <DollarSign class="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                <div class="text-2xl font-bold">$45,231.89</div>
+                <p class="text-xs text-muted-foreground">
+                    +20.1% from last month
+                </p>
+            </CardContent>
+        </Card>
+        <Card>
+            <CardHeader
+                class="flex flex-row items-center justify-between space-y-0 pb-2"
+            >
+                <CardTitle class="text-sm font-medium">
+                    Subscriptions
+                </CardTitle>
+                <Users class="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                <div class="text-2xl font-bold">+2350</div>
+                <p class="text-xs text-muted-foreground">
+                    +180.1% from last month
+                </p>
+            </CardContent>
+        </Card>
+        <Card>
+            <CardHeader
+                class="flex flex-row items-center justify-between space-y-0 pb-2"
+            >
+                <CardTitle class="text-sm font-medium"> Sales </CardTitle>
+                <CreditCard class="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                <div class="text-2xl font-bold">+12,234</div>
+                <p class="text-xs text-muted-foreground">
+                    +19% from last month
+                </p>
+            </CardContent>
+        </Card>
+        <Card>
+            <CardHeader
+                class="flex flex-row items-center justify-between space-y-0 pb-2"
+            >
+                <CardTitle class="text-sm font-medium"> Active Now </CardTitle>
+                <Activity class="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                <div class="text-2xl font-bold">+573</div>
+                <p class="text-xs text-muted-foreground">
+                    +201 since last hour
+                </p>
+            </CardContent>
+        </Card>
     </div>
 </template>
