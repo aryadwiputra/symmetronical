@@ -6,6 +6,10 @@ defineProps({
         type: String,
         required: true,
     },
+    subtitle: {
+        type: String,
+        required: false,
+    },
 });
 </script>
 

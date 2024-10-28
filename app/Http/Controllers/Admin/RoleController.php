@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -14,11 +15,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::with(['permissions'])->get() ?? [];
 
-        return Inertia::render('Admin/Roles/Index', [
-            'roles' => $roles
-        ]);
+        return Inertia::render('Admin/Roles/Index', ['roles' => $roles]);
     }
 
     /**
@@ -26,7 +25,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        
+        $permissions = Permission::all();
+        return Inertia::render('Admin/Roles/Create', compact('permissions'));
     }
 
     /**
@@ -34,7 +34,21 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /**
+         * Validate request
+         */
+        $request->validate([
+            'name'          => 'required|unique:roles,name',
+            'permissions'   => 'required',
+        ]);
+
+        //create role
+        $role = Role::create(['name' => $request->name]);
+
+        //assign permissions to role
+        $role->givePermissionTo($request->permissions);
+
+        return redirect()->route('roles.index')->with('success', 'Role berhasil dibuat.');
     }
 
     /**
@@ -50,7 +64,13 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $role = Role::with(['permissions'])->find($id);
+
+        $permissions = Permission::all();
+
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
+
+        return Inertia::render('Admin/Roles/Edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
     /**
@@ -58,7 +78,20 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name'          => 'required|unique:roles,name,' . $id,
+            'permissions'   => 'required',
+        ]);
+
+        $role = Role::find($id);
+
+        $role->name = $request->name;
+
+        $role->syncPermissions($request->permissions);
+
+        $role->save();
+
+        return redirect()->route('roles.index')->with('success', 'Role berhasil diperbarui.');
     }
 
     /**
@@ -66,6 +99,10 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $role = Role::find($id);
+
+        $role->delete();
+
+        return redirect()->route('roles.index')->with('success', 'Role berhasil dihapus.');
     }
 }
