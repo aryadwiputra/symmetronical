@@ -29,6 +29,7 @@ import {
     Package,
     Package2,
     Search,
+    ShieldCheck,
     ShoppingCart,
     Users,
 } from "lucide-vue-next";
@@ -39,7 +40,10 @@ import {
             <div
                 class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6"
             >
-                <Link :href="route('dashboard')" class="flex items-center gap-2 font-semibold">
+                <Link
+                    :href="route('admin.dashboard')"
+                    class="flex items-center gap-2 font-semibold"
+                >
                     <Package2 class="h-6 w-6" />
                     <span class="">Acme Inc</span>
                 </Link>
@@ -50,20 +54,39 @@ import {
             </div>
             <div class="flex-1">
                 <nav class="grid items-start px-2 text-sm font-medium lg:px-4">
-                    <a
-                        href="/"
-                        class="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+                    <Link
+                        :href="route('admin.dashboard')"
+                        :class="{
+                            'flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary': true,
+                            'bg-muted text-primary':
+                                $page.url.startsWith('/admin/dashboard'),
+                            'text-muted-foreground':
+                                !$page.url.startsWith('/admin/dashboard'),
+                        }"
                     >
                         <Home class="h-4 w-4" />
                         Dashboard
-                    </a>
-                    <a
+                    </Link>
+                    <Link
+                        :href="route('admin.roles.index')"
+                        :class="{
+                            'flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary': true,
+                            'bg-muted text-primary':
+                                $page.url.startsWith('/admin/roles'),
+                            'text-muted-foreground':
+                                !$page.url.startsWith('/admin/roles'),
+                        }"
+                    >
+                        <ShieldCheck class="h-4 w-4" />
+                        Roles
+                    </Link>
+                    <Link
                         href="#"
                         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                     >
                         <Package class="h-4 w-4" />
                         Products
-                    </a>
+                    </Link>
                     <!-- <a
                         href="#"
                         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"

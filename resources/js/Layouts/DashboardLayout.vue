@@ -9,13 +9,11 @@ import AppHeader from "@/Components/Dashboard/AppHeader.vue";
 defineProps({
     title: {
         type: String,
-        required: true,
     },
 });
 </script>
 
 <template>
-    <Head :title="title" />
     <div
         class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]"
     >
